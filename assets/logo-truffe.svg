@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 260" fill="none">
+  <!-- Circle -->
+  <circle cx="100" cy="90" r="72" stroke="#0F3327" stroke-width="5.5" fill="none"/>
+
+  <!-- Cat ear (left - pointed) -->
+  <path d="M56 42 C52 22, 68 18, 72 38" stroke="#0F3327" stroke-width="5" stroke-linecap="round" fill="none"/>
+
+  <!-- Dog ear (right - floppy) -->
+  <path d="M128 38 C132 18, 152 24, 148 46 C146 56, 138 64, 132 60" stroke="#0F3327" stroke-width="5" stroke-linecap="round" fill="none"/>
+
+  <!-- Left eye -->
+  <circle cx="78" cy="82" r="4" fill="#0F3327"/>
+
+  <!-- Right eye -->
+  <circle cx="118" cy="82" r="4" fill="#0F3327"/>
+
+  <!-- Nose -->
+  <ellipse cx="98" cy="104" rx="8" ry="6" fill="#0F3327"/>
+
+  <!-- Mouth -->
+  <path d="M98 110 C92 118, 84 116, 82 112" stroke="#0F3327" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+  <path d="M98 110 C104 118, 112 116, 114 112" stroke="#0F3327" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+
+  <!-- Wordmark: "truffe" using Quicksand-like shapes -->
+  <!-- We use text element styled via CSS instead of paths for flexibility -->
+</svg>
