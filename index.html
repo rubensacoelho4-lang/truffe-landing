@@ -8,7 +8,7 @@
   <meta property="og:title" content="Truffe — Protège ton compagnon">
   <meta property="og:description" content="Médaillons NFC connectés pour chiens et chats. Profil digital instantané, mode perdu avec notifications.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://truffe.pet">
+  <meta property="og:url" content="https://truffe.pro">
   <title>Truffe — Médaillons NFC pour chiens et chats</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -719,9 +719,22 @@
           <li>Mises à jour et nouvelles fonctionnalités</li>
           <li>Remplacement gratuit si médaillon perdu</li>
         </ul>
-        <button class="price-cta" onclick="alert('La boutique ouvre bientôt ! Laisse ton email pour être notifié.')">
-          Commencer maintenant
-        </button>
+        <form id="waitlist-form" onsubmit="return submitWaitlist(event)" style="display:flex;gap:8px;flex-wrap:wrap;">
+          <input type="email" id="waitlist-email" required placeholder="ton@email.com"
+            style="flex:1;min-width:200px;padding:16px 18px;border:2px solid var(--sand-dark);border-radius:var(--radius-xl);
+            font-family:inherit;font-size:15px;color:var(--forest);background:var(--white);outline:none;">
+          <button type="submit" class="price-cta" id="waitlist-btn" style="margin:0;white-space:nowrap;">
+            Rejoindre la liste
+          </button>
+        </form>
+        <div id="waitlist-success" style="display:none;text-align:center;padding:16px;background:rgba(58,140,92,0.08);border-radius:var(--radius-xl);margin-top:8px;">
+          <span style="font-size:24px;">&#x1F389;</span>
+          <p style="font-size:15px;font-weight:700;color:var(--success);margin-top:6px;">Tu es sur la liste !</p>
+          <p style="font-size:13px;color:var(--forest-mid);margin-top:4px;">On te contacte dès que Truffe est disponible.</p>
+        </div>
+        <div id="waitlist-error" style="display:none;text-align:center;padding:12px;background:var(--error-light, rgba(217,79,79,0.08));border-radius:12px;margin-top:8px;">
+          <p style="font-size:14px;font-weight:600;color:var(--error);" id="waitlist-error-msg">Erreur. Réessaie.</p>
+        </div>
         <p class="price-note">Livraison Suisse incluse · Annulable à tout moment · 14 jours d'essai gratuit</p>
       </div>
     </div>
@@ -825,7 +838,7 @@
             <h4>Support</h4>
             <a href="#pricing">Tarif</a>
             <a href="#faq">FAQ</a>
-            <a href="mailto:contact@truffe.pet">Contact</a>
+            <a href="mailto:contact@truffe.pro">Contact</a>
           </div>
         </div>
       </div>
@@ -835,5 +848,40 @@
     </div>
   </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+var sb = window.supabase.createClient(
+  'https://diejcqcjhsbirvjgzetn.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRpZWpjcWNqaHNiaXJ2amd6ZXRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNzc2NDIsImV4cCI6MjA5NTY1MzY0Mn0.RUpYmL59VsgrulXwJqO82TOZg045Is67MT6R1fmVhAk'
+);
+
+window.submitWaitlist = function(e) {
+  e.preventDefault();
+  var email = document.getElementById('waitlist-email').value.trim();
+  var btn = document.getElementById('waitlist-btn');
+  var form = document.getElementById('waitlist-form');
+  if (!email) return false;
+  btn.textContent = '...';
+  btn.disabled = true;
+  sb.from('waitlist').insert({ email: email }).then(function(res) {
+    if (res.error) {
+      if (res.error.code === '23505') {
+        form.style.display = 'none';
+        document.getElementById('waitlist-success').style.display = 'block';
+        document.getElementById('waitlist-success').querySelector('p').textContent = 'Tu es déjà inscrit !';
+      } else {
+        document.getElementById('waitlist-error-msg').textContent = 'Erreur : ' + res.error.message;
+        document.getElementById('waitlist-error').style.display = 'block';
+        btn.textContent = 'Rejoindre la liste';
+        btn.disabled = false;
+      }
+    } else {
+      form.style.display = 'none';
+      document.getElementById('waitlist-success').style.display = 'block';
+    }
+  });
+  return false;
+};
+</script>
 </body>
 </html>
